@@ -7,6 +7,7 @@ package chat;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  *
@@ -24,8 +25,14 @@ public class EmitterClient {
         this.client = new Socket(this.ip, this.port);
         System.out.println("Cliente de envio se conectou através da porta: " + this.port);
         
-        this.sendMessage("E aí, beleza?");
+        this.sendMessage(System.in.toString());
         
+        Scanner input = new Scanner(this.client.getInputStream());
+        
+        while(input.hasNextLine()) {
+            System.out.println(input.nextLine());
+        }
+  
     }
     
     public void sendMessage(String message) throws IOException {

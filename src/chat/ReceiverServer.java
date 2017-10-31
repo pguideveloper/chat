@@ -4,6 +4,7 @@
 package chat;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -14,17 +15,16 @@ import java.util.logging.Logger;
 public class ReceiverServer extends Thread{
     int port; 
     Connections connection;
-    ArrayList<Connections> connections;
+    ArrayList<EmitterClient> client;
+    ArrayList<Socket> clients; 
 //    ArrayList<EmitterClient> clients; 
     
     
-    public ReceiverServer(ArrayList<Connections> connections,  int port, Connections connection) {
+    public ReceiverServer(ArrayList<EmitterClient> client,  int port, Connections connection) {
     
         this.port = port;
         this.connection = connection;
-        this.connections = connections;
-//        this.clients = emitterClients;
-        
+        this.client = client;
     }
     
     public void run() { 
@@ -33,14 +33,14 @@ public class ReceiverServer extends Thread{
             ServerSocket server = new ServerSocket(this.port);
             System.out.println("Servidor de recebimento aberto na porta: " + this.port);
             Socket cli = server.accept();
-            
+//          this.clients.add(cli);
+           
             Scanner input = new Scanner(cli.getInputStream());
             while(true) {
                 while(input.hasNextLine()) {
                     
                     String message = "";
                     message += this.connection.getNickname()+ ": " + input.nextLine();
-               
                     
                     System.out.println(message);
                 }

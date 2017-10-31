@@ -23,7 +23,7 @@ public class Server extends Thread {
 
     int port = 2000;
     int newPort = 2000;
-    ArrayList<Connections> clients = new ArrayList<Connections>();
+    ArrayList<EmitterClient> clients = new ArrayList<EmitterClient>();
     Connections con;
 
     public Server(int port) {
@@ -58,17 +58,18 @@ public class Server extends Thread {
                 String nickname = input.nextLine();
                     
                 System.out.println("Porta: " + this.newPort + " delegada ao usuario: " + nickname + ". Aguardando nova conexão...");
-                    
-                //Salva o novo cliente num array de clientes ativos 
-                this.con = new Connections(ip, nickname, this.newPort);
-                this.clients.add(this.con);
                 
-                //Abre a porta liberada para que o cliente possa se conectar 
+                //Abre a porta liberada para que o cliente possa se conectar.
+                //Responsável por receber as mensagens do cliente. 
                 ReceiverServer receiverServer = new ReceiverServer(this.clients, newPort, this.con);
                 receiverServer.start();
                 
                 //Enviar porta liberada ao cliente após já ter aberto ela no servidor. 
                 output.println(this.newPort);
+                
+                //Cliente responsável por enviar mensagens por parte do servidor na porta par. 
+                EmitterClient emitterClient = new EmitterClient(ip, this.newPort + 1);
+                this.clients.add(emitterClient);
              
                 //Incrementa 2 para que o próximo também se conecte a uma porta impar
                 this.newPort += 2;

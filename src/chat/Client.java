@@ -42,12 +42,11 @@ public class Client extends Thread{
             
             //Recebe a porta liberada pelo servidor 
             int newPort = (Integer.parseInt(input.nextLine()));
-            
-            
             System.out.println("A porta delegada para o cliente foi: " + newPort);
             
-            //Cria o cliente emissor, pela nova porta criada. 
-            EmitterClient emitterClient = new EmitterClient(this.ip, newPort);
+            //Cria um servidor para receber do lado do cliente
+            new ReceiverClient(newPort + 1).start();
+            
             
             input.close();
             output.close();
