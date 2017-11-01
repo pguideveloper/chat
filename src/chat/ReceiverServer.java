@@ -19,6 +19,7 @@ public class ReceiverServer extends Thread {
     ArrayList<EmitterClient> client;
     ArrayList<Socket> clients;
     ServerSocket server;
+    Connections connections = new Connections();
 //    ArrayList<EmitterClient> clients; 
 
     public ReceiverServer(ArrayList<EmitterClient> client, int port, Connections connection) throws IOException {
@@ -39,18 +40,17 @@ public class ReceiverServer extends Thread {
                 Socket cli = this.server.accept();
                 
                 System.out.println("Cliente: " + cli.getInetAddress().getHostAddress() + " conectado ao servidor de recebimento pela porta: " + this.port);
-//              this.clients.add(cli);
-
-//            Scanner input = new Scanner(cli.getInputStream());;
-//            while(true) {
-//                while(input.hasNextLine()) {
-//                    
-//                    String message = "";
-//                    message += this.connection.getNickname()+ ": " + input.nextLine();
-//                    
-//                    System.out.println(message);
-//                }
-//            }
+                
+                String ip = cli.getInetAddress().getHostAddress();
+                this.connections.addConnection(new Connection(ip, this.port, cli));
+                
+                
+                Scanner input = new Scanner(cli.getInputStream());
+                while(input.hasNextLine()) {
+                    this.connections.sendToAll(input.nextLine());
+                    System.out.println(input.nextLine());
+                }
+                
             }
             }catch (IOException ex) {
             Logger.getLogger(ReceiverServer.class.getName()).log(Level.SEVERE, null, ex);

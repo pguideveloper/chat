@@ -19,6 +19,7 @@ public class ReceiverClient extends Thread {
     
     int port;
     ServerSocket server;
+    Connections connections = new Connections();
     
     public ReceiverClient(int port) throws IOException {
         this.port = port;
@@ -32,6 +33,12 @@ public class ReceiverClient extends Thread {
                 System.out.println("Cliente de recebimento aberto na porta: " + this.port);
             
                 Socket client = this.server.accept();
+                
+                
+                
+        
+                
+                
                 System.out.println("Cliente de recebimento recebeu nova conexão de " + client.getInetAddress().getHostAddress());
             }
         } catch (IOException ex) {

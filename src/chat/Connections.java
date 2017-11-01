@@ -5,6 +5,7 @@
  */
 package chat;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,4 +16,19 @@ public class Connections {
    public void addConnection(Connection connection) {
        this.connections.add(connection);
    } 
+   
+   public boolean hasNewMessage(String message) throws IOException {
+       
+       if(message != "") {
+           this.sendToAll(message);
+       }
+       
+       return false;
+   }
+   
+   public void sendToAll(String message) throws IOException {
+       for(int i = 0; i < this.connections.size(); i++) {
+           this.connections.get(i).sendMessage(message);
+       }
+   }
 }
