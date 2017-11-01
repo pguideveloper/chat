@@ -46,7 +46,6 @@ public class Server extends Thread {
             while (true) {
                 //Espera conexão do cliente
                 Socket client = server.accept();
-                System.out.println("PORQUE VOLTOU AQUI PRA CIMA?");
                 String ip = client.getInetAddress().getHostAddress();
                 System.out.println("Cliente " + ip + " se conectou ao servidor principal.");
                 

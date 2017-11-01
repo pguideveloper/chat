@@ -21,8 +21,10 @@ public class EmitterClient {
    
     public EmitterClient(String ip, int port) throws IOException {
         this.ip = ip; 
-        this.port = port; 
-        this.client = new Socket(this.ip, 2000);
+        this.port = port;
+        
+        System.out.println(this.port);
+        this.client = new Socket(this.ip, this.port);
         System.out.println("Cliente de envio se conectou ao servidor de recebimento através da porta: " + this.port);
         
 //        this.sendMessage(System.in.toString());
