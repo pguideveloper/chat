@@ -18,19 +18,22 @@ import java.util.logging.Logger;
 public class ReceiverClient extends Thread {
     
     int port;
+    ServerSocket server;
     
-    public ReceiverClient(int port) {
+    public ReceiverClient(int port) throws IOException {
         this.port = port;
+        this.server = new ServerSocket(this.port);
     }
     
     public void run() {
-     
+        
         try {
-            ServerSocket server = new ServerSocket(this.port);
-            System.out.println("Cliente de recebimento aceitou conexão na porta: " + this.port);
-            Socket client = server.accept();
-            System.out.println("Cliente de recebimento recebeu nova conexão de " + client.getInetAddress().getHostAddress());
+            while(true) {    
+                System.out.println("Cliente de recebimento aberto na porta: " + this.port);
             
+                Socket client = this.server.accept();
+                System.out.println("Cliente de recebimento recebeu nova conexão de " + client.getInetAddress().getHostAddress());
+            }
         } catch (IOException ex) {
             Logger.getLogger(ReceiverClient.class.getName()).log(Level.SEVERE, null, ex);
         }

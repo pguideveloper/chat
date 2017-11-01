@@ -47,7 +47,9 @@ public class Client extends Thread{
             //Cria um servidor para receber do lado do cliente
             new ReceiverClient(newPort + 1).start();
             
-            
+            //Cliente responsável por enviar mensagens por parte do servidor na porta par. 
+            EmitterClient emitterClient = new EmitterClient(ip, newPort);
+ 
             input.close();
             output.close();
             

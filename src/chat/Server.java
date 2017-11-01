@@ -40,13 +40,13 @@ public class Server extends Thread {
         
         try {
             ServerSocket server = new ServerSocket(port);
-            //Servidor abre a porta 2000 
-            
+            //Servidor abre a porta 2000
             System.out.println("Servidor principal iniciado na porta: " + this.port);
 
             while (true) {
                 //Espera conexão do cliente
                 Socket client = server.accept();
+                System.out.println("PORQUE VOLTOU AQUI PRA CIMA?");
                 String ip = client.getInetAddress().getHostAddress();
                 System.out.println("Cliente " + ip + " se conectou ao servidor principal.");
                 
@@ -66,6 +66,7 @@ public class Server extends Thread {
                 
                 //Enviar porta liberada ao cliente após já ter aberto ela no servidor. 
                 output.println(this.newPort);
+                
                 
                 //Cliente responsável por enviar mensagens por parte do servidor na porta par. 
                 EmitterClient emitterClient = new EmitterClient(ip, this.newPort + 1);
