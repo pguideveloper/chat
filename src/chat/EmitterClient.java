@@ -20,26 +20,20 @@ public class EmitterClient {
     int port;
     String ip;
     Socket client;
+    PrintStream output; 
 
     public EmitterClient(String ip, int port) throws IOException {
 
         this.ip = ip;
         this.port = port;
         System.out.println("Cliente está pronto para se conectar na porta : " + this.port);
+        
         this.client = new Socket(this.ip, this.port);
         System.out.println("O " + this.ip + " se conectou como emissor na porta: " + this.port);
-        
-//        PrintStream output = new PrintStream(this.client.getOutputStream());
-//        Scanner input = new Scanner(System.in);
-//        
-//        while(input.hasNextLine()) {
-//            output.println(input.nextLine());
-//        }
-        
+        this.output = new PrintStream(this.client.getOutputStream());
     }
     
     public final void sendMessage(String message) throws IOException {
-        PrintStream output = new PrintStream(this.client.getOutputStream());
-        output.print(message);
+        this.output.println(message);
     }
 }

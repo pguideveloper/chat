@@ -55,18 +55,19 @@ public class ReceiverServer extends Thread {
 
             System.out.println("ENTRADA DO SERVIDOR ESTÁ FUNCIONANDO, COMECE A DIGITAR!");
 
-            while (true) {
-                while (input.hasNextLine()) {
-                    String message = "";
+            while (input.hasNextLine()) {
+                String message = "";
 
-                    message += input.nextLine();
+                message += input.nextLine();
 
+                for(int i = 0; i < this.clients.size(); i++) {
                     new Message(this.clients).sendToAll(message);
-
                 }
 
-                input.close();
             }
+
+            input.close();
+
         } catch (IOException ex) {
             Logger.getLogger(ReceiverServer.class.getName()).log(Level.SEVERE, null, ex);
         }

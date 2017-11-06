@@ -11,10 +11,16 @@ import java.util.ArrayList;
 public class Message {
 
     ArrayList<Connection> clients = new ArrayList<Connection>();
+    Connection client;
 
     public Message(ArrayList<Connection> client) {
         this.clients = client;
     }
+    
+    public Message(Connection client) {
+        this.client = client;
+    }
+    
 
     public void sendToAll(String message) throws IOException {
         
@@ -23,5 +29,8 @@ public class Message {
         }
         
     }
-
+    
+    public void sendToOne(String message) throws IOException {
+        this.client.getEmitter().sendMessage(message);
+    }
 }
