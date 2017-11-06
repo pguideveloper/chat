@@ -38,7 +38,7 @@ public class ReceiverClient extends Thread {
             Scanner input = new Scanner(client.getInputStream());
  
             while (input.hasNextLine()) {
-                System.out.println("LADO DO CLIENTE: " + input.nextLine());
+                System.out.println(input.nextLine());
             }
             
         } catch (IOException ex) {

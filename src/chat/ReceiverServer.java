@@ -42,15 +42,18 @@ public class ReceiverServer extends Thread {
 
             String ip = cli.getInetAddress().getHostAddress();
 
+            //Cria um cliente emissor por parte do servidor.
             EmitterClient emitterServer = new EmitterClient(ip, this.port + 1);
-            
+
+            //Define um cliente emissor
             this.client.setEmitter(emitterServer);
-            
+
+            //Insere no array de clientes. 
             this.clients.add(this.client);
 
-            Scanner input = new Scanner(cli.getInputStream());
+            Scanner input = new Scanner(System.in);
 
-            System.out.println("TECLADO ON!");
+            System.out.println("ENTRADA DO SERVIDOR ESTÁ FUNCIONANDO, COMECE A DIGITAR!");
 
             while (true) {
                 while (input.hasNextLine()) {
@@ -58,11 +61,8 @@ public class ReceiverServer extends Thread {
 
                     message += input.nextLine();
 
-                    System.out.println("LADO DO SERVIDOR: " + message);
+                    new Message(this.clients).sendToAll(message);
 
-//                    for(int i = 0; i < this.clients.size(); i++) {
-//                        this.clients.get(i).getEmitter().sendMessage(message);
-//                    }
                 }
 
                 input.close();

@@ -29,12 +29,12 @@ public class EmitterClient {
         this.client = new Socket(this.ip, this.port);
         System.out.println("O " + this.ip + " se conectou como emissor na porta: " + this.port);
         
-        PrintStream output = new PrintStream(this.client.getOutputStream());
-        Scanner input = new Scanner(System.in);
-        
-        while(input.hasNextLine()) {
-            output.println(input.nextLine());
-        }
+//        PrintStream output = new PrintStream(this.client.getOutputStream());
+//        Scanner input = new Scanner(System.in);
+//        
+//        while(input.hasNextLine()) {
+//            output.println(input.nextLine());
+//        }
         
     }
     
@@ -42,5 +42,4 @@ public class EmitterClient {
         PrintStream output = new PrintStream(this.client.getOutputStream());
         output.print(message);
     }
-
 }
