@@ -27,6 +27,7 @@ public class Client extends Thread{
         
     }
     
+    @Override
     public void run() {
         try {
             Socket client = new Socket(this.ip, this.port);
@@ -44,14 +45,15 @@ public class Client extends Thread{
             int newPort = (Integer.parseInt(input.nextLine()));
             System.out.println("A porta delegada para o cliente foi: " + newPort);
             
+            //Fecha conexão com servidor principal para deixá-lo livre 
+            client.close();
+            
             //Cria um servidor para receber do lado do cliente
             new ReceiverClient(newPort + 1).start();
             
-            //Cliente responsável por enviar mensagens por parte do servidor na porta par. 
+            //Cliente responsável por enviar mensagens ao servidor 
             EmitterClient emitterClient = new EmitterClient(ip, newPort);
- 
-            input.close();
-            output.close();
+            emitterClient.sendMessage("QUALQUER PORRA!");
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

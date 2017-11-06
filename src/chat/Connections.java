@@ -10,25 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Connections {
-   
+
     List<Connection> connections = new ArrayList<Connection>();
-    
-   public void addConnection(Connection connection) {
-       this.connections.add(connection);
-   } 
-   
-   public boolean hasNewMessage(String message) throws IOException {
-       
-       if(message != "") {
-           this.sendToAll(message);
-       }
-       
-       return false;
-   }
-   
-   public void sendToAll(String message) throws IOException {
-       for(int i = 0; i < this.connections.size(); i++) {
-           this.connections.get(i).sendMessage(message);
-       }
-   }
+
+    public void addConnection(Connection connection) {
+        this.connections.add(connection);
+    }
+
+    public void sendToAll(String message) throws IOException {
+        
+        System.out.println(this.connections.size());
+//       for(int i = 0; i < this.connections.size(); i++) {
+//           this.connections.get(i).sendMessage(message);
+//       }
+    }
 }

@@ -13,30 +13,40 @@ import java.net.Socket;
 public class Connection {
   
     String ip; 
-    int port; 
-    Socket client; 
+    int sender; 
+    int receiver; 
+    String name; 
+    EmitterClient emitter;
     
-    
-    public Connection(String ip, int port, Socket client) {
+  
+    public Connection(String ip, int port, String name) {
         this.ip = ip;
-        this.port = port;
-        this.client = client;  
+        this.sender = port;
+        this.receiver = port + 1; 
+        this.name = name;
     }
-    
+
     public String getIp() {
-        return this.ip; 
+        return ip;
+    }
+
+    public int getSender() {
+        return sender;
+    }
+
+    public int getReceiver() {
+        return receiver;
+    }
+
+    public String getName() {
+        return name;
     }
     
-    public int getPort() {
-        return this.port; 
+    public void setEmitter(EmitterClient emitter) {
+        this.emitter = emitter;
     }
     
-    public Socket getClient() {
-        return this.client;
-    }
-    
-    public void sendMessage(String message) throws IOException {
-        PrintStream output = new PrintStream(client.getOutputStream());
-        output.println(message);
+    public EmitterClient getEmitter() {
+        return this.emitter;
     }
 }

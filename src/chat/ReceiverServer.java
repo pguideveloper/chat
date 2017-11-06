@@ -16,45 +16,60 @@ public class ReceiverServer extends Thread {
 
     int port;
     Connections connection;
-    ArrayList<EmitterClient> client;
-    ArrayList<Socket> clients;
+    ArrayList<Connection> clients;
+    Connection client;
     ServerSocket server;
     Connections connections = new Connections();
 //    ArrayList<EmitterClient> clients; 
 
-    public ReceiverServer(ArrayList<EmitterClient> client, int port, Connections connection) throws IOException {
+    public ReceiverServer(ArrayList<Connection> clients, int port, Connection client) throws IOException {
 
+        this.server = new ServerSocket(port);
         this.port = port;
-        this.connection = connection;
+        this.clients = clients;
         this.client = client;
-        this.server = new ServerSocket(this.port);
+
     }
 
     public void run() {
 
         try {
+
+            System.out.println("Servidor de recebimento aberto na porta: " + this.port + " e aguardando conexões");
+            Socket cli = this.server.accept();
+
+            System.out.println("Cliente " + cli.getInetAddress().getHostAddress() + " conectado ao servidor de recebimento pela porta: " + this.port);
+
+            String ip = cli.getInetAddress().getHostAddress();
+
+            EmitterClient emitterServer = new EmitterClient(ip, this.port + 1);
             
+            this.client.setEmitter(emitterServer);
             
+            this.clients.add(this.client);
+
+            Scanner input = new Scanner(cli.getInputStream());
+
+            System.out.println("TECLADO ON!");
+
             while (true) {
-                System.out.println("Servidor de recebimento aberto na porta: " + this.port);
-                Socket cli = this.server.accept();
-                
-                System.out.println("Cliente: " + cli.getInetAddress().getHostAddress() + " conectado ao servidor de recebimento pela porta: " + this.port);
-                
-                String ip = cli.getInetAddress().getHostAddress();
-                this.connections.addConnection(new Connection(ip, this.port, cli));
-                
-                
-                Scanner input = new Scanner(cli.getInputStream());
-                while(input.hasNextLine()) {
-                    this.connections.sendToAll(input.nextLine());
-                    System.out.println(input.nextLine());
+                while (input.hasNextLine()) {
+                    String message = "";
+
+                    message += input.nextLine();
+
+                    System.out.println("LADO DO SERVIDOR: " + message);
+
+//                    for(int i = 0; i < this.clients.size(); i++) {
+//                        this.clients.get(i).getEmitter().sendMessage(message);
+//                    }
                 }
-                
+
+                input.close();
             }
-            }catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(ReceiverServer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        }
     }
+}

@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 public class Server extends Thread {
 
     int port = 2000;
-    int newPort = 2000;
-    ArrayList<EmitterClient> clients = new ArrayList<EmitterClient>();
+    static int newPort = 2000;
+    ArrayList<Connection> clients = new ArrayList<Connection>();
     Connections con;
 
     public Server(int port) {
@@ -40,10 +40,12 @@ public class Server extends Thread {
         
         try {
             ServerSocket server = new ServerSocket(port);
+            
             //Servidor abre a porta 2000
             System.out.println("Servidor principal iniciado na porta: " + this.port);
 
             while (true) {
+                
                 //Espera conexão do cliente
                 Socket client = server.accept();
                 String ip = client.getInetAddress().getHostAddress();
@@ -56,26 +58,26 @@ public class Server extends Thread {
                 Scanner input = new Scanner(client.getInputStream());
                 String nickname = input.nextLine();
                     
-                System.out.println("Porta: " + this.newPort + " delegada ao usuario: " + nickname + ". Aguardando nova conexão...");
+                System.out.println("Porta: " + Server.newPort + " delegada ao usuario: " + nickname);
+                
+                //Armazena dados do cliente que se conectou 
+                Connection user = new Connection(ip, newPort, nickname);
+                clients.add(user);
                 
                 //Abre a porta liberada para que o cliente possa se conectar.
-                //Responsável por receber as mensagens do cliente. 
-                ReceiverServer receiverServer = new ReceiverServer(this.clients, newPort, this.con);
+                //Responsável por receber as mensagens do cliente.
+                ReceiverServer receiverServer = new ReceiverServer(this.clients, Server.newPort, user);
                 receiverServer.start();
                 
                 //Enviar porta liberada ao cliente após já ter aberto ela no servidor. 
-                output.println(this.newPort);
+                output.println(Server.newPort);
                 
-                
-                //Cliente responsável por enviar mensagens por parte do servidor na porta par. 
-                EmitterClient emitterClient = new EmitterClient(ip, this.newPort + 1);
-                this.clients.add(emitterClient);
+                //Fecha a conexão com o cliente e com as entradas e saídas.
+                client.close();
              
                 //Incrementa 2 para que o próximo também se conecte a uma porta impar
-                this.newPort += 2;
+                Server.newPort += 2;
                 
-                input.close();
-                output.close();
             }
 
         } catch (IOException ex) {
