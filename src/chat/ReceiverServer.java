@@ -51,7 +51,7 @@ public class ReceiverServer extends Thread {
             //Insere no array de clientes. 
             this.clients.add(this.client);
 
-            Scanner input = new Scanner(System.in);
+            Scanner input = new Scanner(cli.getInputStream());
 
             System.out.println("ENTRADA DO SERVIDOR ESTÁ FUNCIONANDO, COMECE A DIGITAR!");
 
@@ -60,9 +60,9 @@ public class ReceiverServer extends Thread {
 
                 message += input.nextLine();
 
-                for(int i = 0; i < this.clients.size(); i++) {
-                    new Message(this.clients).sendToAll(message);
-                }
+                
+                new Message(this.clients).sendToAll(message);
+                
 
             }
 

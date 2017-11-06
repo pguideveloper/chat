@@ -53,6 +53,11 @@ public class ChatInterface extends javax.swing.JFrame {
         });
 
         sendButton.setText("Send");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
 
         serverHost.setText("127.0.0.1");
         serverHost.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +160,14 @@ public class ChatInterface extends javax.swing.JFrame {
         Client client = new Client(this, ip, nick);
         client.start();
     }//GEN-LAST:event_serverConnectionActionPerformed
+
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        if(this.chatArea.getText().equals(""))
+            this.chatArea.setText(this.messageArea.getText());
+        else
+            this.chatArea.setText(this.chatArea.getText() + "\n" + this.chatArea.getText());
+        this.messageArea.setText("");
+    }//GEN-LAST:event_sendButtonActionPerformed
 
     public void sendMessage(String message) {
         this.chatArea.setText(message);

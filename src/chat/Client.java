@@ -53,7 +53,7 @@ public class Client extends Thread{
             
             //Cliente responsável por enviar mensagens ao servidor 
             EmitterClient emitterClient = new EmitterClient(ip, newPort);
-            emitterClient.sendMessage("QUALQUER PORRA!");
+            emitterClient.sendMessage("TESTE DE ENVIO PARA O SERVIDOR");
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
