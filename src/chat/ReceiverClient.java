@@ -22,6 +22,7 @@ public class ReceiverClient extends Thread {
     ServerSocket server;
     Connections connections = new Connections();
     ChatInterface chatinterface;
+    
     public ReceiverClient(ChatInterface chatinterface, int port) throws IOException {
         this.port = port;
         this.server = new ServerSocket(this.port);
@@ -37,9 +38,11 @@ public class ReceiverClient extends Thread {
             
 
             Scanner input = new Scanner(client.getInputStream());
- 
+            
+            //Espera uma mensagem e envia para o clientReceptor 
             while (input.hasNextLine()) {
                 System.out.println(input.nextLine());
+                
                 this.chatinterface.sendMessage(input.nextLine());
             }
             
