@@ -34,8 +34,6 @@ public class Client extends Thread{
             Socket client = new Socket(this.ip, this.port);
             System.out.println("Cliente: " + this.nickname + " conectou-se ao servidor principal");
             
-     
-            
             PrintStream output = new PrintStream(client.getOutputStream());
             Scanner input = new Scanner(client.getInputStream());
             
@@ -53,7 +51,7 @@ public class Client extends Thread{
             new ReceiverClient(this.chatinterface, newPort + 1).start();
             
             //Cliente responsável por enviar mensagens ao servidor 
-            this.client.connection(ip, newPort);
+            this.client.connection(ip, newPort, this.nickname);
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

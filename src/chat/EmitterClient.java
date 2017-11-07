@@ -21,6 +21,7 @@ public class EmitterClient {
     String ip;
     Socket client;
     PrintStream output; 
+    String nickname;
 
     public EmitterClient() {}
     public EmitterClient(String ip, int port) throws IOException {
@@ -34,7 +35,7 @@ public class EmitterClient {
         this.output = new PrintStream(this.client.getOutputStream());
     }
     
-    public void connection(String ip, int port) throws IOException  {
+    public void connection(String ip, int port, String nick) throws IOException  {
         this.ip = ip;
         this.port = port;
         System.out.println("Cliente está pronto para se conectar na porta : " + this.port);
@@ -45,7 +46,10 @@ public class EmitterClient {
     }
     
     public final void sendMessage(String message) throws IOException {
-        this.output.println(message);
+        String m = "";
+        m += this.nickname + ": " +  message;
+        
+        this.output.println(m);
     }
 
 }

@@ -25,7 +25,7 @@ public class Message {
     public void sendToAll(String message) throws IOException {
         
         for (int i = 0; i < this.clients.size(); i++) {
-            this.clients.get(i).getEmitter().sendMessage(this.clients.get(i).getName() + " : " + message);
+            this.clients.get(i).getEmitter().sendMessage(message);
         }
         
     }

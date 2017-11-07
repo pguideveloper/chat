@@ -53,16 +53,12 @@ public class ReceiverServer extends Thread {
 
             Scanner input = new Scanner(cli.getInputStream());
 
-            System.out.println("ENTRADA DO SERVIDOR ESTÁ FUNCIONANDO, COMECE A DIGITAR!");
-
             while (input.hasNextLine()) {
                 String message = "";
 
                 message += input.nextLine();
-
                 
                 new Message(this.clients).sendToAll(message);
-
             }
 
             input.close();
