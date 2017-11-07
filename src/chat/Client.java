@@ -52,6 +52,7 @@ public class Client extends Thread{
             
             //Cliente responsável por enviar mensagens ao servidor 
             this.client.connection(ip, newPort, this.nickname);
+            this.client.sendMessage(nickname + " se conectou ao chat!");
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

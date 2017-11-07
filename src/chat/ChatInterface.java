@@ -5,9 +5,12 @@
  */
 package chat;
 
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+
 
 /**
  *
@@ -21,6 +24,7 @@ public class ChatInterface extends javax.swing.JFrame {
      */
     public ChatInterface() {
         initComponents();
+        
     }
 
     /**
@@ -161,11 +165,19 @@ public class ChatInterface extends javax.swing.JFrame {
         
         if(nick == null)
             nick = "Anônimo";
-           
+        
         Client client = new Client(this, eClient, ip, nick);
         client.start();
+        
+        //Muda o título da janela 
+        JFrame thisframe = this;
+        thisframe.setTitle(nick);
+        
+        //Anula o botão de conexão
+        this.serverConnection.setEnabled(false);
     }//GEN-LAST:event_serverConnectionActionPerformed
 
+    
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         try {
             eClient.sendMessage(this.messageArea.getText());

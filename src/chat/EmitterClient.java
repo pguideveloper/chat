@@ -50,7 +50,6 @@ public class EmitterClient {
     }
 
     public final void sendMessage(String message) throws IOException {
-
         String m;
         m = message;
         this.output.println(m);
