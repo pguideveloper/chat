@@ -29,7 +29,6 @@ public class Message {
         }
         
     }
-    
     public void sendToOne(String message) throws IOException {
         this.client.getEmitter().sendMessage(message);
     }

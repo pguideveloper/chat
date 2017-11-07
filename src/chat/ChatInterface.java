@@ -5,12 +5,17 @@
  */
 package chat;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author root
  */
 public class ChatInterface extends javax.swing.JFrame {
 
+    EmitterClient eClient = new EmitterClient(); 
     /**
      * Creates new form ChatInterface
      */
@@ -157,20 +162,25 @@ public class ChatInterface extends javax.swing.JFrame {
         if(nick == null)
             nick = "Anônimo";
            
-        Client client = new Client(this, ip, nick);
+        Client client = new Client(this, eClient, ip, nick);
         client.start();
     }//GEN-LAST:event_serverConnectionActionPerformed
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        if(this.chatArea.getText().equals(""))
-            this.chatArea.setText(this.messageArea.getText());
-        else
-            this.chatArea.setText(this.chatArea.getText() + "\n" + this.chatArea.getText());
+        try {
+            eClient.sendMessage(this.messageArea.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(ChatInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.messageArea.setText("");
     }//GEN-LAST:event_sendButtonActionPerformed
 
     public void sendMessage(String message) {
-        this.chatArea.setText(message);
+        if(this.chatArea.getText().equals("")){
+            this.chatArea.setText(message);
+        }else{
+            this.chatArea.setText(this.chatArea.getText() + "\n" + message);
+        }
     } 
      
     /**

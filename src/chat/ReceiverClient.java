@@ -21,10 +21,11 @@ public class ReceiverClient extends Thread {
     int port;
     ServerSocket server;
     Connections connections = new Connections();
-
-    public ReceiverClient(int port) throws IOException {
+    ChatInterface chatinterface;
+    public ReceiverClient(ChatInterface chatinterface, int port) throws IOException {
         this.port = port;
         this.server = new ServerSocket(this.port);
+        this.chatinterface = chatinterface;
         System.out.println("Cliente receptor aberto na porta: " + this.port);
     }
 
@@ -39,6 +40,7 @@ public class ReceiverClient extends Thread {
  
             while (input.hasNextLine()) {
                 System.out.println(input.nextLine());
+                this.chatinterface.sendMessage(input.nextLine());
             }
             
         } catch (IOException ex) {

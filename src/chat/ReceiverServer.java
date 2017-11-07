@@ -62,7 +62,6 @@ public class ReceiverServer extends Thread {
 
                 
                 new Message(this.clients).sendToAll(message);
-                
 
             }
 

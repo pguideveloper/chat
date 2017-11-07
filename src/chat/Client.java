@@ -17,14 +17,15 @@ public class Client extends Thread{
     int port = 2000; 
     String ip; 
     String nickname;
-    ChatInterface chatInterface;
+    ChatInterface chatinterface;
+    EmitterClient client;
     
     
-    public Client(ChatInterface chatInterface, String ip, String nickname) {
+    public Client(ChatInterface chatinterface, EmitterClient client, String ip, String nickname) {
         this.ip = ip;
         this.nickname = nickname;
-        this.chatInterface = chatInterface;
-        
+        this.chatinterface = chatinterface;
+        this.client = client;
     }
     
     @Override
@@ -33,7 +34,7 @@ public class Client extends Thread{
             Socket client = new Socket(this.ip, this.port);
             System.out.println("Cliente: " + this.nickname + " conectou-se ao servidor principal");
             
-            this.chatInterface.sendMessage("Cliente: " + this.nickname + " conectou-se ao servidor principal");
+     
             
             PrintStream output = new PrintStream(client.getOutputStream());
             Scanner input = new Scanner(client.getInputStream());
@@ -49,11 +50,10 @@ public class Client extends Thread{
             client.close();
             
             //Cria um servidor para receber do lado do cliente
-            new ReceiverClient(newPort + 1).start();
+            new ReceiverClient(this.chatinterface, newPort + 1).start();
             
             //Cliente responsável por enviar mensagens ao servidor 
-            EmitterClient emitterClient = new EmitterClient(ip, newPort);
-            emitterClient.sendMessage("TESTE DE ENVIO PARA O SERVIDOR");
+            this.client.connection(ip, newPort);
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
