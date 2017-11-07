@@ -54,11 +54,9 @@ public class ReceiverServer extends Thread {
             Scanner input = new Scanner(cli.getInputStream());
 
             while (input.hasNextLine()) {
-                String message = "";
-
-                message += input.nextLine();
+               
                 
-                new Message(this.clients).sendToAll(message);
+                new Message(this.clients).sendToAll(input.nextLine());
             }
 
             input.close();
