@@ -24,7 +24,6 @@ public class Server extends Thread {
     int port = 2000;
     static int newPort = 2000;
     ArrayList<Connection> clients = new ArrayList<Connection>();
-    Connections con;
 
     public Server(int port) {
         this.port = port;

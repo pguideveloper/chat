@@ -36,7 +36,7 @@ public class Message {
             //Procura usuário e se encontrar, envia mensagem privada
             for (int j = 0; j < this.clients.size(); j++) {
                 if (this.clients.get(j).getName().equals(this.receiver)) {
-                    this.privateMessage(this.clients.get(j), "(" + this.client.getName() + ")[Privada]: " + this.message);
+                    this.privateMessage(this.clients.get(j), new Cripto().cifrar("(" + this.client.getName() + ")[Privada]: " + this.message));
                 }
             }
 
@@ -44,7 +44,7 @@ public class Message {
             this.receiver = null;
             this.message = message;
             for (int i = 0; i < this.clients.size(); i++) {
-                this.clients.get(i).getEmitter().serverSendMessage("(" + this.client.getName() + "): " + this.message);
+                this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("(" + this.client.getName() + "): " + this.message));
             }
         }
 

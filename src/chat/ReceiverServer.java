@@ -15,13 +15,10 @@ import java.util.logging.Logger;
 public class ReceiverServer extends Thread {
 
     int port;
-    Connections connection;
     ArrayList<Connection> clients;
     Connection client;
     ServerSocket server;
-    Connections connections = new Connections();
-//    ArrayList<EmitterClient> clients; 
-
+    
     public ReceiverServer(ArrayList<Connection> clients, int port, Connection client) throws IOException {
 
         this.server = new ServerSocket(port);

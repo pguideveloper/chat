@@ -20,7 +20,6 @@ public class ReceiverClient extends Thread {
 
     int port;
     ServerSocket server;
-    Connections connections = new Connections();
     ChatInterface chatinterface;
     
     public ReceiverClient(ChatInterface chatinterface, int port) throws IOException {
@@ -43,7 +42,7 @@ public class ReceiverClient extends Thread {
             while (input.hasNextLine()) {
                 System.out.println(input.nextLine());
                 
-                this.chatinterface.sendMessage(input.nextLine());
+                this.chatinterface.sendMessage(new Cripto().decifrar(input.nextLine()));
             }
             
         } catch (IOException ex) {
