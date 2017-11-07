@@ -48,11 +48,11 @@ public class EmitterClient {
     }
     
     public final void sendMessage(String message) throws IOException {
+  
         String m;
         
         m = this.nickname + ": " +  message;
         
-        this.output.println(m);
     }
 
 }
