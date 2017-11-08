@@ -5,12 +5,37 @@
  */
 package chat;
 
-import java.sql.*;
-       
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class DatabaseConnection {
-    
-    public DatabaseConnection() {
-        
+
+    private static final String DRIVER = "com.mysql.jdbc.Driver"; //Driver do caminho
+    private static final String URL = "jdbc:mysql://localhost:3306/message"; //Caminho do banco de dados
+    private static final String USER = "root"; //Usuário do banco de dados
+    private static final String PASS = ""; //Senha do usuário do banco
+
+    public Connection DatabaseConnection() throws ClassNotFoundException {
+        try {
+            Class.forName(DRIVER);
+            return DriverManager.getConnection(URL, USER, PASS);
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw new RuntimeException("Erro na conexão: ", ex);
+        }
     }
     
+    public static void closeConnection(Connection con) {
+        try {
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
