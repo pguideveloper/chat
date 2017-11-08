@@ -61,7 +61,7 @@ public class Server extends Thread {
                 
                 //Armazena dados do cliente que se conectou 
                 Connection user = new Connection(ip, newPort, nickname);
-                clients.add(user);
+                
                 
                 //Abre a porta liberada para que o cliente possa se conectar.
                 //Responsável por receber as mensagens do cliente.

@@ -26,14 +26,15 @@ public class Message {
 
     public void sendToAll(String message) throws IOException {
 
+        
         message = this.removeWhiteSpace(message);
-
+         
         if (message.substring(0, 1).equals("@")) {
             int i = this.messageStart(message);
             this.receiver = message.substring(1, i);
             this.message = message.substring(i + 1);
 
-            //Procura usuário e se encontrar, envia mensagem privada
+            //Procura usuário e se encontrar, envia mensagem privada 
             for (int j = 0; j < this.clients.size(); j++) {
                 if (this.clients.get(j).getName().equals(this.receiver)) {
                     this.privateMessage(this.clients.get(j), new Cripto().cifrar("(" + this.client.getName() + ")[Privada]: " + this.message));
@@ -43,6 +44,7 @@ public class Message {
         } else {
             this.receiver = null;
             this.message = message;
+           
             for (int i = 0; i < this.clients.size(); i++) {
                 this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("(" + this.client.getName() + "): " + this.message));
             }

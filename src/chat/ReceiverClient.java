@@ -39,10 +39,10 @@ public class ReceiverClient extends Thread {
             Scanner input = new Scanner(client.getInputStream());
             
             //Espera uma mensagem e envia para o clientReceptor 
-            while (input.hasNextLine()) {
-                System.out.println(input.nextLine());
+            while (input.hasNextLine()) {     
                 
                 this.chatinterface.sendMessage(new Cripto().decifrar(input.nextLine()));
+                
             }
             
         } catch (IOException ex) {
