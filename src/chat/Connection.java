@@ -5,6 +5,7 @@
  */
 package chat;
 
+import chat.EmitterClient;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -25,6 +26,7 @@ public class Connection {
         this.receiver = port + 1; 
         this.name = name;
     }
+    
 
     public String getIp() {
         return ip;

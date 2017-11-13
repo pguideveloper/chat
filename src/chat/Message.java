@@ -5,6 +5,8 @@
  */
 package chat;
 
+import database.CRUD;
+import database.Messages;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,10 +16,12 @@ public class Message {
     Connection client;
     String message;
     String receiver;
+    CRUD crud;
 
     public Message(Connection client, ArrayList<Connection> clients) {
         this.clients = clients;
         this.client = client;
+        this.crud = new CRUD();
     }
 
     public Message(Connection client) {
@@ -26,6 +30,11 @@ public class Message {
 
     public void sendToAll(String message) throws IOException {
 
+        Messages messages = new Messages();
+        messages.setMessage(message);
+        messages.setDate("2017-10-22");
+        this.crud.create(messages);
+        
         
         message = this.removeWhiteSpace(message);
          

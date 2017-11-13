@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chat;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +20,8 @@ public class DatabaseConnection {
     private static final String USER = "root"; //Usuário do banco de dados
     private static final String PASS = ""; //Senha do usuário do banco
 
-    public Connection DatabaseConnection() throws ClassNotFoundException {
+    
+    public Connection getConnection() {
         try {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL, USER, PASS);
