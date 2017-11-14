@@ -29,15 +29,10 @@ public class Message {
     }
 
     public void sendToAll(String message) throws IOException {
-
         Messages messages = new Messages();
-        messages.setMessage(message);
-        messages.setDate("2017-10-22");
-        this.crud.create(messages);
-        
-        
+
         message = this.removeWhiteSpace(message);
-         
+
         if (message.substring(0, 1).equals("@")) {
             int i = this.messageStart(message);
             this.receiver = message.substring(1, i);
@@ -47,15 +42,25 @@ public class Message {
             for (int j = 0; j < this.clients.size(); j++) {
                 if (this.clients.get(j).getName().equals(this.receiver)) {
                     this.privateMessage(this.clients.get(j), new Cripto().cifrar("(" + this.client.getName() + ")[Privada]: " + this.message));
+                    messages.setName(this.clients.get(j).getName());
+                    messages.setIp(this.clients.get(j).getIp());
+                    messages.setMessage(message);
+                    messages.setDate("2017-10-22");
+                    this.crud.create(messages);
                 }
             }
 
         } else {
             this.receiver = null;
             this.message = message;
-           
+
             for (int i = 0; i < this.clients.size(); i++) {
                 this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("(" + this.client.getName() + "): " + this.message));
+                messages.setName(this.clients.get(i).getName());
+                messages.setIp(this.clients.get(i).getIp());
+                messages.setMessage(message);
+                messages.setDate("2017-10-22");
+                this.crud.create(messages);
             }
         }
 

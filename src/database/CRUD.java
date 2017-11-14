@@ -26,10 +26,12 @@ public class CRUD {
         
         try{
             this.stmt = this.connection.getConnection().prepareStatement("INSERT INTO message "
-                    + "(message, date) VALUES(?, ?)");
+                    + "(name, ip, message, date) VALUES(?, ?, ?, ?)");
 
-            this.stmt.setString(1, message.getMessage());
-            this.stmt.setString(2, message.getDate());
+            this.stmt.setString(1, message.getName());
+            this.stmt.setString(2, message.getIp());
+            this.stmt.setString(3, message.getMessage());
+            this.stmt.setString(4, message.getDate());
             
             stmt.executeUpdate();
             
