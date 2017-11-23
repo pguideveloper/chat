@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class DatabaseConnection {
 
     private static final String DRIVER = "com.mysql.jdbc.Driver"; //Driver do caminho
-    private static final String URL = "jdbc:mysql://localhost:3306/message"; //Caminho do banco de dados
+    private static final String URL = "jdbc:mysql://localhost:3307/message"; //Caminho do banco de dados
     private static final String USER = "root"; //Usuário do banco de dados
     private static final String PASS = ""; //Senha do usuário do banco
 

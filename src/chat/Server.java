@@ -65,7 +65,7 @@ public class Server extends Thread {
                 
                 //Abre a porta liberada para que o cliente possa se conectar.
                 //Responsável por receber as mensagens do cliente.
-                ReceiverServer receiverServer = new ReceiverServer(this.clients, Server.newPort, user);
+                ReceiverServer receiverServer = new ReceiverServer(this.clients, Server.newPort, user, nickname);
                 receiverServer.start();
                 
                 //Enviar porta liberada ao cliente após já ter aberto ela no servidor. 

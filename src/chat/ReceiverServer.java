@@ -18,14 +18,15 @@ public class ReceiverServer extends Thread {
     ArrayList<Connection> clients;
     Connection client;
     ServerSocket server;
+    String nickname; 
     
-    public ReceiverServer(ArrayList<Connection> clients, int port, Connection client) throws IOException {
+    public ReceiverServer(ArrayList<Connection> clients, int port, Connection client, String nickname) throws IOException {
 
         this.server = new ServerSocket(port);
         this.port = port;
         this.clients = clients;
         this.client = client;
-
+        this.nickname = nickname;
     }
 
     public void run() {
@@ -51,7 +52,7 @@ public class ReceiverServer extends Thread {
             Scanner input = new Scanner(cli.getInputStream());
 
             while (input.hasNextLine()) {
-                new Message(this.client, this.clients).sendToAll(input.nextLine());
+                new Message(this.client, this.clients, this.nickname).sendToAll(input.nextLine());
             }
 
             input.close();

@@ -16,12 +16,14 @@ public class Message {
     Connection client;
     String message;
     String receiver;
+    String emitter;
     CRUD crud;
 
-    public Message(Connection client, ArrayList<Connection> clients) {
+    public Message(Connection client, ArrayList<Connection> clients, String emitter) {
         this.clients = clients;
         this.client = client;
         this.crud = new CRUD();
+        this.emitter = emitter;
     }
 
     public Message(Connection client) {
@@ -40,8 +42,15 @@ public class Message {
 
             //Procura usuário e se encontrar, envia mensagem privada 
             for (int j = 0; j < this.clients.size(); j++) {
-                if (this.clients.get(j).getName().equals(this.receiver)) {
-                    this.privateMessage(this.clients.get(j), new Cripto().cifrar("(" + this.client.getName() + ")[Privada]: " + this.message));
+                if (this.clients.get(j).getName().equals(this.receiver) || this.clients.get(j).getName().equals(this.emitter)) {
+                    
+                    if(this.clients.get(j).getName().equals(this.emitter))
+                        this.privateMessage(this.clients.get(j), new Cripto().cifrar("Eu (Privada)::"  + this.message));
+                    else
+                        this.privateMessage(this.clients.get(j), new Cripto().cifrar(this.client.getName() + "(Privada) :"  + this.message));
+                    
+                    
+                    //Salva no banco de dados
                     messages.setName(this.clients.get(j).getName());
                     messages.setIp(this.clients.get(j).getIp());
                     messages.setMessage(message);
@@ -55,7 +64,13 @@ public class Message {
             this.message = message;
 
             for (int i = 0; i < this.clients.size(); i++) {
-                this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("(" + this.client.getName() + "): " + this.message));
+                if(this.clients.get(i).getName().equals(this.emitter))
+                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("Eu : " + this.message));
+                else    
+                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar(this.client.getName() + " : "+ this.message));
+                
+                
+                //Salva no banco de dados
                 messages.setName(this.clients.get(i).getName());
                 messages.setIp(this.clients.get(i).getIp());
                 messages.setMessage(message);
