@@ -8,6 +8,9 @@ package chat;
 import database.CRUD;
 import database.Messages;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Message {
@@ -35,6 +38,9 @@ public class Message {
 
         message = this.removeWhiteSpace(message);
 
+        /**
+         * Verifica se a mensagem é privada, caso seja, separa a string da mensagem para saber qual é o destinatário. 
+         */
         if (message.substring(0, 1).equals("@")) {
             int i = this.messageStart(message);
             this.receiver = message.substring(1, i);
@@ -43,40 +49,41 @@ public class Message {
             //Procura usuário e se encontrar, envia mensagem privada 
             for (int j = 0; j < this.clients.size(); j++) {
                 if (this.clients.get(j).getName().equals(this.receiver) || this.clients.get(j).getName().equals(this.emitter)) {
-                    
-                    if(this.clients.get(j).getName().equals(this.emitter))
-                        this.privateMessage(this.clients.get(j), new Cripto().cifrar("Eu (Privada)::"  + this.message));
-                    else
-                        this.privateMessage(this.clients.get(j), new Cripto().cifrar(this.client.getName() + "(Privada) :"  + this.message));
-                    
-                    
-                    //Salva no banco de dados
-                    messages.setName(this.clients.get(j).getName());
-                    messages.setIp(this.clients.get(j).getIp());
-                    messages.setMessage(message);
-                    messages.setDate("2017-10-22");
-                    this.crud.create(messages);
+
+                    if (this.clients.get(j).getName().equals(this.emitter)) {
+                        this.privateMessage(this.clients.get(j), new Cripto().cifrar("Eu (Privada): " + this.message));
+                    } else {
+                        this.privateMessage(this.clients.get(j), new Cripto().cifrar(this.client.getName() + "(Privada): " + this.message));
+                    }
                 }
             }
 
+            //Salva no banco de dados
+            messages.setEmitter(this.client.getName());
+            messages.setReceiver(this.receiver);
+            messages.setIp(this.client.getIp());
+            messages.setMessage(new Cripto().cifrar(this.message));
+            messages.setDate(this.getCurrentDate());
+            this.crud.create(messages);
+
         } else {
-            this.receiver = null;
             this.message = message;
 
             for (int i = 0; i < this.clients.size(); i++) {
-                if(this.clients.get(i).getName().equals(this.emitter))
-                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("Eu : " + this.message));
-                else    
-                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar(this.client.getName() + " : "+ this.message));
-                
-                
-                //Salva no banco de dados
-                messages.setName(this.clients.get(i).getName());
-                messages.setIp(this.clients.get(i).getIp());
-                messages.setMessage(message);
-                messages.setDate("2017-10-22");
-                this.crud.create(messages);
+                if (this.clients.get(i).getName().equals(this.emitter)) {
+                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar("Eu: " + this.message));
+                } else {
+                    this.clients.get(i).getEmitter().serverSendMessage(new Cripto().cifrar(this.client.getName() + ": " + this.message));
+                }
             }
+
+            //Salva no banco de dados
+            messages.setEmitter(this.client.getName());
+            messages.setReceiver("Todos");
+            messages.setIp(this.client.getIp());
+            messages.setMessage(new Cripto().cifrar(message));
+            messages.setDate(this.getCurrentDate());
+            this.crud.create(messages);
         }
 
     }
@@ -103,5 +110,20 @@ public class Message {
         }
 
         return i;
+    }
+
+    public String getCurrentDate() {
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                .format(System.currentTimeMillis());
+
+        //Seta valores da data
+        String date = currentDate.substring(0, 10);
+
+        //Seta valores do horário
+        String hour = currentDate.substring(11, 19);
+        
+        return date + " " + hour;
+
     }
 }

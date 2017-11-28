@@ -25,13 +25,14 @@ public class CRUD {
     public boolean create(Messages message){
         
         try{
-            this.stmt = this.connection.getConnection().prepareStatement("INSERT INTO message "
-                    + "(name, ip, message, date) VALUES(?, ?, ?, ?)");
+            this.stmt = this.connection.getConnection().prepareStatement("INSERT INTO messages "
+                    + "(emitter, receiver, ip, message, date) VALUES(?, ?, ?, ?, ?)");
 
-            this.stmt.setString(1, message.getName());
-            this.stmt.setString(2, message.getIp());
-            this.stmt.setString(3, message.getMessage());
-            this.stmt.setString(4, message.getDate());
+            this.stmt.setString(1, message.getEmitter());
+            this.stmt.setString(2, message.getReceiver());
+            this.stmt.setString(3, message.getIp());
+            this.stmt.setString(4, message.getMessage());
+            this.stmt.setString(5, message.getDate());
             
             stmt.executeUpdate();
             
@@ -42,4 +43,5 @@ public class CRUD {
             return false;
         }
     }
+   
 }

@@ -14,7 +14,25 @@ public class Messages {
     private String message; 
     private String date; 
     private String ip; 
-    private String name;
+    private String emitter;
+    private String receiver;
+
+    public String getEmitter() {
+        return emitter;
+    }
+
+    public void setEmitter(String emissor) {
+        this.emitter = emissor;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receptor) {
+        this.receiver = receptor;
+    }
+    
 
     public String getMessage() {
         return message;
@@ -38,13 +56,5 @@ public class Messages {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
